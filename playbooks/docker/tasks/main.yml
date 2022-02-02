@@ -22,9 +22,6 @@
 - name: Instalando Docker Compose
   script: docker-compose.sh
 
-- debug: 
-    msg: "{{ ansible_default_ipv4.address }}"
-
 - name: Copiando daemon.json
   copy:
     src: daemon.json

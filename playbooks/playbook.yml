@@ -2,8 +2,10 @@
   become: yes
   roles:
   - docker
+  - netdata
 
 - hosts: cliente
   become: yes
   roles:
   - docker
+  - netdata

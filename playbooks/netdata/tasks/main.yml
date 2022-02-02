@@ -1,0 +1,24 @@
+---
+# tasks file for netdata
+
+- name: Download e instalação netdata
+  get_url:
+    url: https://my-netdata.io/kickstart.sh
+    dest: ~/kickstart.sh
+    mode: +x
+
+- name: Instalacao netdata
+  command: ~/kickstart.sh --dont-wait
+
+- name: Limpando script
+  file:
+    path: ~/kickstart.sh
+    state: absent
+
+- name: Copiando netdata.conf
+  copy:
+    src: netdata.conf
+    dest: /etc/netdata/netdata.conf
+    owner: root
+    group: root
+  notify: Restart Netdata

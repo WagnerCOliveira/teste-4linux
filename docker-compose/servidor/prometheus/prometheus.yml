@@ -1,0 +1,54 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first.rules"
+  # - "second.rules"
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['172.18.0.20:9090']
+        labels:
+          group: 'servers'
+
+  - job_name: dockerServer
+    static_configs:
+      - targets: ['172.18.0.1:9323']
+        labels:
+          group: 'docker'
+
+  - job_name: dockerClient
+    static_configs:
+      - targets: ['10.128.15.192:9323']
+        labels:
+          group: 'docker'
+
+  - job_name: node
+    static_configs:
+      - targets: ['172.18.0.30:9100', '10.128.15.192:9100']
+        labels:
+          group: 'servers'
+
+  - job_name: netdataServer
+    metrics_path: '/api/v1/allmetrics'
+    params:
+      format: [prometheus]
+    honor_labels: true
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['172.18.0.1:19999']
+        labels:
+          group: 'servers'
+
+  - job_name: netdataClient
+    metrics_path: '/api/v1/allmetrics'
+    params:
+      format: [prometheus]
+    honor_labels: true
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.128.15.192:19999']
+        labels:
+          group: 'servers'

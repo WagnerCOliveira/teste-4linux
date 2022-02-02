@@ -1,0 +1,13 @@
+- name: Instalando Pré Dependencias    
+  package:
+    name: ['apt-transport-https', 'ca-certificates', 'curl', 'gnupg-agent', 'software-properties-common']
+    state: present
+- name: Adicionando Chave de Repositório
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+- name: Adicionando repositório
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable"
+    state: present
+    filename: docker-ce

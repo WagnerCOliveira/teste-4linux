@@ -1,0 +1,39 @@
+---
+# tasks file for docker
+- name: Removendo Pacotes
+  package:
+    name: '{{ packages_remove }}'
+    state: absent
+
+- name: Tarefas especificas
+  include_tasks: '{{ ansible_distribution|lower }}.yml'
+
+- name: Instalando Docker Ce
+  package:
+    name: docker-ce
+    state: present
+
+- name: Adicionando Usuário WCO ao Grupo Docker
+  user:
+    name: john
+    shell: /bin/bash
+    groups: docker
+
+- name: Instalando Docker Compose
+  script: docker-compose.sh
+
+- debug: 
+    msg: "{{ ansible_default_ipv4.address }}"
+
+- name: Copiando daemon.json
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+
+- name: Iniciando Docker
+  service:
+    name: docker
+    state: started
+    enabled: yes

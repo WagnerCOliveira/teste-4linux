@@ -1,0 +1,9 @@
+- hosts: servidor
+  become: yes
+  roles:
+  - docker
+
+- hosts: cliente
+  become: yes
+  roles:
+  - docker

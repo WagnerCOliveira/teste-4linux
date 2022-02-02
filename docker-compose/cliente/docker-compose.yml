@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    command:
+    - "--path.rootfs=/host"
+    volumes:
+    - "/:/host:ro,rslave"
+    pid: host
+    ports:
+    - 9100:9100
+    networks:
+      mto_net:
+       ipv4_address: 172.18.0.30
+
+networks:
+  mto_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.18.0.0/24
